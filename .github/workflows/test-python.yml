@@ -10,10 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: install python
+      - name: Install python build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git
+          sudo apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev wget curl llvm
+
+      - name: install python
+        run: |
           curl -s -S -L https://pyenv.run | bash
 
           export PYENV_ROOT="$HOME/.pyenv"
@@ -26,4 +29,5 @@ jobs:
       - name: check python
         run: |
           python --version
+          python -c "import readline, bz2, ssl, sqlite3"
           which python
