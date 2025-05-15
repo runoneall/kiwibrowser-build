@@ -1,11 +1,18 @@
 #!/bin/sh
 sudo apt-get update
-sudo apt-get install -y openjdk-8-jdk-headless aptitude ccache
+sudo apt-get install -y aptitude ccache
 
 # libncurses5
 sudo aptitude install -y libncurses5-dev
 
-sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+# openjdk8
+sudo apt-get install -y openjdk-8-jdk
+JAVA_8_HOME=$(readlink -f /usr/lib/jvm/java-8-openjdk-amd64)
+echo "JAVA_HOME=${JAVA_8_HOME}" >>$GITHUB_ENV
+echo "${JAVA_8_HOME}/bin" >>$GITHUB_PATH
+sudo update-alternatives --set java "${JAVA_8_HOME}/bin/java"
+sudo update-alternatives --set javac "${JAVA_8_HOME}/bin/javac"
+
 git clone --depth 1 "https://github.com/kiwibrowser/src" src
 cd "$ROOT/src"
 curl "https://omahaproxy.appspot.com/all" | grep -Fi "android,stable" | cut -f3 -d"," | awk '{split($0,a,"."); print "MAJOR=" a[1] "\nMINOR=" a[2] "\nBUILD=" a[3] "\nPATCH=" a[4]}' >chrome/VERSION
