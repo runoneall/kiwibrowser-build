@@ -12,13 +12,15 @@ jobs:
     steps:
       - name: install python
         run: |
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository -y ppa:deadsnakes/ppa
-          sudo apt-get update
-          sudo apt-get install -y python2.7
+          curl https://pyenv.run | bash
+          echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+          echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+          echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+          source ~/.bashrc
+          pyenv install 2.7.18
+          pyenv global 2.7.18
 
       - name: check python
         run: |
-          python2.7 --version
-          which python2.7
+          python --version
+          which python
