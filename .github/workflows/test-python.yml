@@ -1,0 +1,24 @@
+
+name: build
+env:
+    TZ: Asia/Shanghai
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: env
+      run: |
+        echo "CC=ccache clang -Qunused-arguments" >> $GITHUB_ENV
+        echo "CXX=ccache clang++ -Qunused-arguments" >> $GITHUB_ENV
+        echo "START_TIME=$(date '+%s')" >> $GITHUB_ENV
+        mkdir -p "$PWD/run"
+        echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
+        echo "ROOT=$PWD" >> $GITHUB_ENV
+    
+    - run: $ROOT/script/test-python.sh

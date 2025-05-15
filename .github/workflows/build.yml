@@ -21,11 +21,6 @@ jobs:
         echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
         echo "ROOT=$PWD" >> $GITHUB_ENV
 
-    - name: Set up Python 2.7
-      uses: actions/setup-python@v4
-      with:
-          python-version: '2.7'
-
 
     - run: $ROOT/script/download_ccache.sh
     - run: $ROOT/script/create_ccache_config.sh
