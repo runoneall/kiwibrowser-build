@@ -13,9 +13,9 @@ jobs:
       - name: install python
         run: |
           sudo apt-get update
-          sudo apt-get install -y python2-minimal
+          sudo apt install -y python2.7
 
       - name: check python
         run: |
-          python2 --version
-          which python2
+          python2.7 --version
+          which python2.7
