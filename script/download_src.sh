@@ -1,6 +1,14 @@
 #!/bin/sh
 sudo apt-get update
-sudo apt-get install -y python openjdk-8-jdk-headless libncurses5 ccache
+sudo apt-get install -y python2 openjdk-8-jdk-headless aptitude ccache
+
+# 安装libncurses5
+aptitude install -y libncurses5-dev
+
+# 调整默认python为python2
+update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+update-alternatives --list python
+
 sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
 git clone --depth 1 "https://github.com/kiwibrowser/src" src
 cd "$ROOT/src"
