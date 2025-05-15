@@ -26,6 +26,12 @@ jobs:
           pyenv install 2.7.18
           pyenv global 2.7.18
 
+      - name: set default python version
+        run: |
+          PY2_PATH="$HOME/.pyenv/versions/2.7.18/bin/python"
+          sudo update-alternatives --install /usr/bin/python python $PY2_PATH 100
+          sudo update-alternatives --set python $PY2_PATH
+
       - name: check python
         run: |
-          ~/.pyenv/versions/2.7.18/bin/python --version
+          python --version
