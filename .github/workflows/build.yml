@@ -21,14 +21,10 @@ jobs:
         echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
         echo "ROOT=$PWD" >> $GITHUB_ENV
 
-    - name: config push
-      env:
-        PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-      if: ${{ env.PUSH_TOKEN != '' }}
-      run: |
-        echo "PUSH_TOKEN=${{ secrets.PUSH_TOKEN }}" >> $GITHUB_ENV
-        git config --global user.email "aoeiuv020@gmail.com"
-        git config --global user.name "AoEiuV020"
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v4
+      with:
+          python-version: '2.7'
 
 
     - run: $ROOT/script/download_ccache.sh
