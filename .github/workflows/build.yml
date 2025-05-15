@@ -10,18 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: set env
-        run: |
-          echo "CC=ccache clang -Qunused-arguments" >> $GITHUB_ENV
-          echo "CXX=ccache clang++ -Qunused-arguments" >> $GITHUB_ENV
-          echo "START_TIME=$(date '+%s')" >> $GITHUB_ENV
-          mkdir -p "$PWD/run"
-          echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
-          echo "ROOT=$PWD" >> $GITHUB_ENV
-
       - name: install python build dependencies
         run: |
           sudo apt-get update
@@ -47,6 +35,18 @@ jobs:
       - name: check python
         run: |
           python --version
+
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set env
+        run: |
+          echo "CC=ccache clang -Qunused-arguments" >> $GITHUB_ENV
+          echo "CXX=ccache clang++ -Qunused-arguments" >> $GITHUB_ENV
+          echo "START_TIME=$(date '+%s')" >> $GITHUB_ENV
+          mkdir -p "$PWD/run"
+          echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
+          echo "ROOT=$PWD" >> $GITHUB_ENV
 
       - run: $ROOT/script/download_ccache.sh
       - run: $ROOT/script/create_ccache_config.sh
