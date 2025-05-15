@@ -1,7 +1,6 @@
-
 name: build
 env:
-    TZ: Asia/Shanghai
+  TZ: Asia/Shanghai
 
 on:
   workflow_dispatch:
@@ -11,44 +10,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: env
-      run: |
-        echo "CC=ccache clang -Qunused-arguments" >> $GITHUB_ENV
-        echo "CXX=ccache clang++ -Qunused-arguments" >> $GITHUB_ENV
-        echo "START_TIME=$(date '+%s')" >> $GITHUB_ENV
-        mkdir -p "$PWD/run"
-        echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
-        echo "ROOT=$PWD" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
+      - name: env
+        run: |
+          echo "CC=ccache clang -Qunused-arguments" >> $GITHUB_ENV
+          echo "CXX=ccache clang++ -Qunused-arguments" >> $GITHUB_ENV
+          echo "START_TIME=$(date '+%s')" >> $GITHUB_ENV
+          mkdir -p "$PWD/run"
+          echo "FLAG_STOP=$PWD/run/ninjaStop" >> $GITHUB_ENV
+          echo "ROOT=$PWD" >> $GITHUB_ENV
 
-
-    - run: $ROOT/script/download_ccache.sh
-    - run: $ROOT/script/create_ccache_config.sh
-    - run: $ROOT/script/maximize_build_space.sh
-    - run: $ROOT/script/download_depot.sh
-    - run: $ROOT/script/download_cipd.sh
-    - run: $ROOT/script/download_src.sh
-    - run: $ROOT/script/gen.sh
-    - run: $ROOT/script/auto_kill.sh
-    - run: $ROOT/script/build_step.sh base
-    - run: $ROOT/script/build_step.sh chrome_java
-    - run: $ROOT/script/build_step.sh components/guest_view/renderer
-    - run: $ROOT/script/build_step.sh chrome/gpu
-    - run: $ROOT/script/build_step.sh components/version_info
-    - run: $ROOT/script/build_step.sh ui/base
-    - run: $ROOT/script/build_step.sh chrome/browser:resources
-    - run: $ROOT/script/build_step.sh chrome/browser/ui
-    - run: $ROOT/script/build_step.sh chrome/browser
-    - run: $ROOT/script/build_step.sh chrome/common
-    - run: $ROOT/script/build_step.sh chrome/renderer
-    - run: $ROOT/script/build_step.sh extensions
-    - run: $ROOT/script/build_step.sh services
-    - run: $ROOT/script/build_step.sh v8
-    - run: $ROOT/script/build_step.sh chrome_public_apk
-    - run: killall sleep || true
-    - name: Uploading APK
-      if: hashFiles(env.FLAG_STOP) == ''
-      uses: actions/upload-artifact@v4
-      with:
-        name: apk-arm64
-        path: ./src/out/arm64/apks/
+      - run: $ROOT/script/download_ccache.sh
+      - run: $ROOT/script/create_ccache_config.sh
+      - run: $ROOT/script/maximize_build_space.sh
+      - run: $ROOT/script/download_depot.sh
+      - run: $ROOT/script/download_cipd.sh
+      - run: $ROOT/script/download_src.sh
+      - run: $ROOT/script/gen.sh
+      - run: $ROOT/script/auto_kill.sh
+      - run: $ROOT/script/build_step.sh base
+      - run: $ROOT/script/build_step.sh chrome_java
+      - run: $ROOT/script/build_step.sh components/guest_view/renderer
+      - run: $ROOT/script/build_step.sh chrome/gpu
+      - run: $ROOT/script/build_step.sh components/version_info
+      - run: $ROOT/script/build_step.sh ui/base
+      - run: $ROOT/script/build_step.sh chrome/browser:resources
+      - run: $ROOT/script/build_step.sh chrome/browser/ui
+      - run: $ROOT/script/build_step.sh chrome/browser
+      - run: $ROOT/script/build_step.sh chrome/common
+      - run: $ROOT/script/build_step.sh chrome/renderer
+      - run: $ROOT/script/build_step.sh extensions
+      - run: $ROOT/script/build_step.sh services
+      - run: $ROOT/script/build_step.sh v8
+      - run: $ROOT/script/build_step.sh chrome_public_apk
+      - run: killall sleep || true
+      - name: Uploading APK
+        if: hashFiles(env.FLAG_STOP) == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-arm64
+          path: ./src/out/arm64/apks/
